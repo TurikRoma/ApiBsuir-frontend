@@ -1,0 +1,13 @@
+body{
+    background: #F5F5F5;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#root{
+    padding: 20px 40px 0 40px;
+    width: 1200px;
+    margin: 0 auto;
+}

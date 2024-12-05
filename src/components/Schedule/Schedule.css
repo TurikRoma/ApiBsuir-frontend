@@ -1,0 +1,20 @@
+.search-input {
+  width: 400px;
+  margin: 30px 0;
+}
+.aside-content {
+  text-align: right;
+}
+.schedule-item {
+  justify-content: space-between;
+}
+.schedule-item:has(.header-schedule) {
+  color: #fff;
+  background: midnightblue;
+  display: block;
+}
+.header-schedule {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
