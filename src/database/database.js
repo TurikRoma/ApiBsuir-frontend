@@ -40,5 +40,4 @@ export async function addDataToDB() {
     addAuditorie(key, data[key]);
   }
   let dataAuditorie = await auditoriesUpload();
-  let dataEmployes = await employesUpload();
 }
