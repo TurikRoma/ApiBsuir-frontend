@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { auditoriesUpload } from "../database/database";
+import { addDataToDB, auditoriesUpload } from "../database/database";
 
 const DataContext = createContext({
   auditoriesSchedule: {},
