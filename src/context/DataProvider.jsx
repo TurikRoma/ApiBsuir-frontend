@@ -25,7 +25,6 @@ export function DataProviderContext({ children }) {
       setAuditoriesSchedule(dataAuditorie[0]);
       setAuditoriesList(dataAuditorie[1]);
       console.log(dataAuditorie[0]);
-      db.auditories.clear();
       if (dataAuditorie[1].length == 0) {
         await addDataToDB();
         func();
