@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { addDataToDB, auditoriesUpload } from "../database/database";
+import { addDataToDB, auditoriesUpload, db } from "../database/database";
 
 const DataContext = createContext({
   auditoriesSchedule: {},
@@ -24,6 +24,8 @@ export function DataProviderContext({ children }) {
       let dataAuditorie = await auditoriesUpload();
       setAuditoriesSchedule(dataAuditorie[0]);
       setAuditoriesList(dataAuditorie[1]);
+      console.log(dataAuditorie[0]);
+      db.auditories.clear();
       if (dataAuditorie[1].length == 0) {
         await addDataToDB();
         func();

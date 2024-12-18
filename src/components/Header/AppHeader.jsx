@@ -19,7 +19,7 @@ export default function Header() {
   return (
     <>
       <header className="header">
-        <Typography.Title level={2}>
+        <Typography.Title level={2} className="Title">
           Расписание занятий в Бгуир
         </Typography.Title>
         <Tabs

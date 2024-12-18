@@ -40,57 +40,66 @@ export default function Schedule() {
   }
 
   function onChange(event) {
+    console.log(auditoriesSchedule["803-7"]);
     let sorteredList = FindAuditories(event);
     changeOptions(sorteredList);
     setInputValue(event);
     if (event.length > 2) {
-      let inputValue = event;
-      let searchData = "";
-      let data = [];
-
-      typeSearch == "auditorie"
-        ? (searchData = auditoriesSchedule[inputValue])
-        : null;
-      if (typeSearch == "auditorie") {
-        while (currentDate <= endDate) {
-          if (
-            currentDate.getDay() !== 0 &&
-            AuditoriesList.includes(inputValue)
-          ) {
-            let dayName = new Intl.DateTimeFormat("ru-RU", WeekOptions).format(
-              currentDate
-            );
-            dayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
-            let indexWeek = getIndexWeek(currentDate) + 1;
-            let month = currentDate.toLocaleString("ru-RU", {
-              month: "long",
-            });
-            month = month.charAt(0).toUpperCase() + month.slice(1);
-            const day = currentDate.getDate();
-
-            if (searchData[`${indexWeek}week`][dayName] == undefined) continue;
-            let daySchedule = searchData[`${indexWeek}week`][dayName];
-
-            if (daySchedule.length != 0) {
-              data = data.concat({
-                type: "Head",
-                WeekIndex: indexWeek,
-                NameDay: dayName,
-                Month: month,
-                Day: day,
+      try {
+        let inputValue = event;
+        let searchData = "";
+        let data = [];
+        typeSearch == "auditorie"
+          ? (searchData = auditoriesSchedule[inputValue])
+          : null;
+        if (typeSearch == "auditorie") {
+          while (currentDate <= endDate) {
+            if (
+              currentDate.getDay() !== 0 &&
+              AuditoriesList.includes(inputValue)
+            ) {
+              let dayName = new Intl.DateTimeFormat(
+                "ru-RU",
+                WeekOptions
+              ).format(currentDate);
+              dayName = dayName.charAt(0).toUpperCase() + dayName.slice(1);
+              let indexWeek = getIndexWeek(currentDate) + 1;
+              let month = currentDate.toLocaleString("ru-RU", {
+                month: "long",
               });
-            }
+              month = month.charAt(0).toUpperCase() + month.slice(1);
+              const day = currentDate.getDate();
 
-            for (let i = 0; i < daySchedule.length; i++) {
-              let schedule = daySchedule[i];
-              data = data.concat({ type: "Main", content: schedule });
+              if (searchData[`${indexWeek}week`][dayName] == undefined) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                continue;
+              }
+
+              let daySchedule = searchData[`${indexWeek}week`][dayName];
+
+              if (daySchedule.length != 0) {
+                data = data.concat({
+                  type: "Head",
+                  WeekIndex: indexWeek,
+                  NameDay: dayName,
+                  Month: month,
+                  Day: day,
+                });
+              }
+
+              for (let i = 0; i < daySchedule.length; i++) {
+                let schedule = daySchedule[i];
+                data = data.concat({ type: "Main", content: schedule });
+              }
             }
+            currentDate.setDate(currentDate.getDate() + 1);
           }
-          currentDate.setDate(currentDate.getDate() + 1);
         }
+        console.log(data);
+        setData(data);
+      } catch (error) {
+        console.log(error);
       }
-      console.log(data);
-      setData(data);
     }
     if (event.length == 0) {
       setData([]);
@@ -122,7 +131,7 @@ export default function Schedule() {
                 {item.searchType != "auditorie" && (
                   <>
                     <h1>
-                      {item.Day}, {item.Month} {item.NameDay}
+                      {item.Day} {item.Month}, {item.NameDay}
                     </h1>
                     <h2>{item.WeekIndex}week</h2>
                   </>

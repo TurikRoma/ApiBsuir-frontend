@@ -62,14 +62,14 @@ export function GetGroupsSchedule(group) {
               } catch (error) {
                 auditoriesNumber = "ФизК";
               }
-
+              if (
+                auditoriesNumber == "310a-4" ||
+                auditoriesNumber == "410a-4"
+              ) {
+                auditoriesNumber = auditoriesNumber.replace(/a/gi, "а");
+              }
               try {
-                employName =
-                  s["employees"][0]["lastName"] +
-                  " " +
-                  s["employees"][0]["firstName"] +
-                  " " +
-                  s["employees"][0]["middleName"];
+                employName = `${s["employees"][0]["lastName"]} ${s["employees"][0]["firstName"][0]}. ${s["employees"][0]["middleName"][0]}.`;
               } catch (error) {
                 employName: "нету";
               }
@@ -82,7 +82,8 @@ export function GetGroupsSchedule(group) {
                 subject: s["subject"],
                 lessonType: s["lessonTypeAbbrev"],
               };
-
+              if (auditoriesNumber == "ФизК")
+                obj["auditorie"] = s["auditories"][0];
               if (s["lessonTypeAbbrev"] == "ЛР")
                 obj["subGroup"] =
                   s["numSubgroup"] == 0 ? "1,2 " : s["numSubgroup"];
