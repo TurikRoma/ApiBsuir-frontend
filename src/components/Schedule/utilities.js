@@ -57,5 +57,6 @@ export function getSchedule(auditoriesSchedule) {
     }
     currentDate.setDate(currentDate.getDate() + 1);
   }
+  console.log(scheduleData);
   return scheduleData;
 }

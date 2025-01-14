@@ -15,6 +15,7 @@ export default function Schedule() {
 
   useEffect(() => {
     if (!isLoading) {
+      console.log(auditoriesSchedule);
       const scheduleData = getSchedule(auditoriesSchedule);
       setData(scheduleData);
       console.log(scheduleData);
