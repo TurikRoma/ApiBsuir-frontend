@@ -25,7 +25,9 @@ export function DataProviderContext({ children }) {
 
   useEffect(() => {
     async function getAuditorieList() {
-      const auditorieList = await axios.get("/auditories");
+      const auditorieList = await axios.get(
+        "https://apibsuir-backend.onrender.com/auditories"
+      );
       setAuditoriesList(auditorieList.data);
     }
     getAuditorieList();
