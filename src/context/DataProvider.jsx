@@ -24,7 +24,7 @@ export function DataProviderContext({ children }) {
   const { auditoriesSchedule } = useSelector((state) => state.schedule);
 
   useEffect(() => {
-    console.log(process.env);
+    console.log(process.env.REACT_APP_TEST);
     async function getAuditorieList() {
       const auditorieList = await axios.get(
         "https://apibsuir-backend.onrender.com/auditories"
