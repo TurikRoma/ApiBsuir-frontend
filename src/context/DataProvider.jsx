@@ -24,11 +24,8 @@ export function DataProviderContext({ children }) {
   const { auditoriesSchedule } = useSelector((state) => state.schedule);
 
   useEffect(() => {
-    console.log(import.meta.env.VITE_API_URL);
     async function getAuditorieList() {
-      const auditorieList = await axios.get(
-        "https://apibsuir-backend.onrender.com/auditories"
-      );
+      const auditorieList = await axios.get("/auditories");
       setAuditoriesList(auditorieList.data);
     }
     getAuditorieList();
