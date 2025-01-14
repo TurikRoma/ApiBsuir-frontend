@@ -5,7 +5,7 @@ import Header from "./Header/AppHeader";
 import Schedule from "./Schedule/AppSchedule";
 
 export default function AppLayout() {
-  const { loading, setLoading } = useContext(DataContext);
+  const { loading } = useContext(DataContext);
 
   if (loading) {
     return <Spin fullscreen="true" size="large"></Spin>;

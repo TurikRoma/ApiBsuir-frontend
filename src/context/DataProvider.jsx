@@ -1,5 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import { addDataToDB, auditoriesUpload, db } from "../database/database";
+import axios from "../axios";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSchedule } from "../redux/slices/schedules";
 
 const DataContext = createContext({
   auditoriesSchedule: {},
@@ -12,26 +14,22 @@ const DataContext = createContext({
 
 export function DataProviderContext({ children }) {
   const [loading, setLoading] = useState(true);
-  const [auditoriesSchedule, setAuditoriesSchedule] = useState({});
+  // const [auditoriesSchedule, setAuditoriesSchedule] = useState({});
   const [sorteredAuditories, setSorteredAuditories] = useState([]);
   const [AuditoriesList, setAuditoriesList] = useState([]);
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [typeSearch, setTypeSearch] = useState("auditorie");
 
+  const { auditoriesSchedule } = useSelector((state) => state.schedule);
+
   useEffect(() => {
-    async function func() {
-      let dataAuditorie = await auditoriesUpload();
-      setAuditoriesSchedule(dataAuditorie[0]);
-      setAuditoriesList(dataAuditorie[1]);
-      console.log(dataAuditorie[0]);
-      if (dataAuditorie[1].length == 0) {
-        await addDataToDB();
-        func();
-      }
-      setLoading(false);
+    async function getAuditorieList() {
+      const auditorieList = await axios.get("/auditories");
+      setAuditoriesList(auditorieList.data);
     }
-    func();
+    getAuditorieList();
+    setLoading(false);
   }, []);
 
   const changeOptions = function (option) {
@@ -56,6 +54,7 @@ export function DataProviderContext({ children }) {
         sorteredList.push({ value: item });
       }
     });
+
     return sorteredList;
   };
 
