@@ -21,8 +21,6 @@ export function getIndexWeek(date) {
 export function getSchedule(auditoriesSchedule) {
   let scheduleData = [];
   let data = auditoriesSchedule.item;
-  console.log(data);
-  console.log(currentDate);
   while (currentDate <= endDate) {
     if (currentDate.getDay() !== 0) {
       let dayName = new Intl.DateTimeFormat("ru-RU", WeekOptions).format(

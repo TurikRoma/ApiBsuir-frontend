@@ -25,7 +25,6 @@ export function DataProviderContext({ children }) {
 
   useEffect(() => {
     async function getAuditorieList() {
-      console.log(import.meta.env.VITE_API_URL);
       const auditorieList = await axios.get("/auditories");
       setAuditoriesList(auditorieList.data);
     }
