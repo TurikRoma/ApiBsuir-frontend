@@ -21,6 +21,8 @@ export function getIndexWeek(date) {
 export function getSchedule(auditoriesSchedule) {
   let scheduleData = [];
   let data = auditoriesSchedule.item;
+  console.log(data);
+  console.log(currentDate);
   while (currentDate <= endDate) {
     if (currentDate.getDay() !== 0) {
       let dayName = new Intl.DateTimeFormat("ru-RU", WeekOptions).format(
@@ -57,6 +59,8 @@ export function getSchedule(auditoriesSchedule) {
     }
     currentDate.setDate(currentDate.getDate() + 1);
   }
-  console.log(scheduleData);
+
+  if (currentDate < startDate) currentDate = new Date(startDate);
+  else currentDate = new Date(startDate);
   return scheduleData;
 }

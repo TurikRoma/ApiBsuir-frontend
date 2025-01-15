@@ -14,11 +14,11 @@ export default function Schedule() {
   const isLoading = auditoriesSchedule.status == "loading";
 
   useEffect(() => {
+    console.log(isLoading);
     if (!isLoading) {
       console.log(auditoriesSchedule);
       const scheduleData = getSchedule(auditoriesSchedule);
       setData(scheduleData);
-      console.log(scheduleData);
     }
   }, [isLoading]);
 
