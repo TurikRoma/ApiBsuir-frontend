@@ -43,7 +43,7 @@ export default function Header() {
     dispatch(fetchSchedule(event));
   }
 
-  let TabsArr = ["По аудитории"];
+  let TabsArr = ["По аудитории", "По аудитории (Корпус)"];
 
   return (
     <>
@@ -74,9 +74,7 @@ export default function Header() {
         style={{
           width: 200,
         }}
-        placeholder={
-          typeSearch == "auditorie" ? "Номер аудитории" : "ФИО преподавателя"
-        }
+        placeholder={"Номер аудитории"}
       />
     </>
   );
