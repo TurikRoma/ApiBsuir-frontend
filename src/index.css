@@ -13,6 +13,17 @@ body {
   margin: 0 auto;
 }
 
+.main-container {
+  display: flex;
+  column-gap: 40px;
+  aside {
+    flex: 0.4;
+  }
+  .ant-skeleton {
+    flex: 1;
+  }
+}
+
 @media (max-width: 768px) {
   #root {
     padding: 20px 20px 0 20px;

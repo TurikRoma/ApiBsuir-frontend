@@ -21,8 +21,13 @@ export default function Header() {
   const dispatch = useDispatch();
 
   const onChange = (key) => {
-    if (key == 1) changeTypeSearch("auditorie");
-    else changeTypeSearch("employ");
+    if (key == 1) {
+      changeTypeSearch("auditorie");
+      navigate(`/`, { replace: true });
+    } else {
+      changeTypeSearch("auditorie(corps)");
+      navigate(`/auditories/corps/`, { replace: true });
+    }
     changeOptions([]);
     setInputValue("");
   };
