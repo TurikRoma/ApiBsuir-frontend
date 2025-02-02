@@ -46,6 +46,7 @@ export default function Schedule() {
 
   return (
     <>
+      
       {typeSearch == "auditorie" && isLoading && (
         <Skeleton loading={isLoading} active></Skeleton>
       )}

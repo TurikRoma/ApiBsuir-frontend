@@ -1,4 +1,4 @@
-import { Typography, Tabs, AutoComplete } from "antd";
+import { Typography, Tabs, AutoComplete, Spin } from "antd";
 import "./Header.css";
 import { useContext, useEffect } from "react";
 import DataContext from "../../context/DataProvider";
@@ -20,6 +20,7 @@ export default function Header() {
     FindAuditories,
     AuditoriesList,
     typeSearch,
+    loading,
   } = useContext(DataContext);
 
   const navigate = useNavigate();
@@ -93,9 +94,9 @@ export default function Header() {
       dispatch(fetchSchedule(event));
     }
   }
-
   return (
     <>
+      <Spin fullscreen spinning={loading}></Spin>
       <header className="header">
         <Typography.Title level={2} className="Title">
           Расписание занятий в Бгуир

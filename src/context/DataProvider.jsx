@@ -23,8 +23,13 @@ export function DataProviderContext({ children }) {
 
   useEffect(() => {
     async function getAuditorieList() {
-      const auditorieList = await axios.get("/auditories");
+      let auditorieList = await axios.get("/auditories");
+
       setAuditoriesList(auditorieList.data);
+      auditorieList = auditorieList.data.map((auditorie) => {
+        return { value: auditorie };
+      });
+      setOptions(auditorieList);
     }
     getAuditorieList();
     setLoading(false);
@@ -42,7 +47,6 @@ export function DataProviderContext({ children }) {
     let data = el;
     let sorteredList = [];
     let searchingType;
-    console.log(auditoriesSchedule.sorteredAuditoriesList.payload);
     typeSearch == "auditorie"
       ? (searchingType = AuditoriesList)
       : (searchingType = sorteredAuditories);
