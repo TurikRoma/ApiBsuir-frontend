@@ -1,28 +1,56 @@
 import "./Schedule.css";
 import { List, Skeleton } from "antd";
 import { useContext, useEffect, useState } from "react";
-import DataContext from "../../context/DataProvider";
 import { useSelector } from "react-redux";
 import { TeamOutlined } from "@ant-design/icons";
-import { getSchedule } from "./utilities";
+import { getSchedule, getScheduleByWeek } from "./utilities";
+import DataContext from "../../context/DataProvider";
 
 export default function Schedule() {
+  const { typeSearch } = useContext(DataContext);
   const [data, setData] = useState();
 
   const { auditoriesSchedule } = useSelector((state) => state.schedule);
+  const { weeksList } = useSelector((state) => state.weeks);
 
   const isLoading = auditoriesSchedule.status == "loading";
 
   useEffect(() => {
     if (!isLoading) {
-      const scheduleData = getSchedule(auditoriesSchedule);
+      let scheduleData;
+      if (typeSearch == "auditorie") {
+        scheduleData = getSchedule(auditoriesSchedule);
+        console.log(scheduleData);
+      } else {
+        console.log(weeksList);
+        scheduleData = getScheduleByWeek(auditoriesSchedule, [...weeksList]);
+        console.log(scheduleData);
+      }
       setData(scheduleData);
     }
   }, [isLoading]);
 
+  useEffect(() => {
+    if (!isLoading) {
+      console.log(weeksList);
+      if (weeksList.length != 0) {
+        const scheduleData = getScheduleByWeek(auditoriesSchedule, [
+          ...weeksList,
+        ]);
+        setData(scheduleData);
+      } else {
+        setData([]);
+      }
+    }
+  }, [weeksList]);
+
   return (
     <>
-      {isLoading && <Skeleton loading={isLoading} active></Skeleton>}
+      {typeSearch == "auditorie" && isLoading && (
+        <Skeleton loading={isLoading} active></Skeleton>
+      )}
+      {typeSearch != "auditorie" && isLoading && <div className="plug"></div>}
+
       {!isLoading && (
         <List
           bordered
@@ -31,7 +59,7 @@ export default function Schedule() {
             <List.Item className="schedule-item">
               {item.type == "Head" && (
                 <div className="header-schedule">
-                  {item.searchType != "auditorie" && (
+                  {typeSearch == "auditorie" && (
                     <>
                       <h1>
                         {item.Day} {item.Month}, {item.NameDay}
@@ -39,8 +67,10 @@ export default function Schedule() {
                       <h2>{item.WeekIndex}week</h2>
                     </>
                   )}
+                  {typeSearch != "auditorie" && <h1>{item.NameDay}</h1>}
                 </div>
               )}
+
               {item.type == "Main" && (
                 <>
                   <div className="main-content">
@@ -63,7 +93,9 @@ export default function Schedule() {
                       )}
 
                     <p>{item.content.employ}</p>
-                    <p></p>
+                    {typeSearch != "auditorie" && (
+                      <p>{[...item.content.weeks].join(", ")} нед.</p>
+                    )}
                   </div>
                   <div className="aside-content">
                     <h2>{item.content.startLesson}</h2>
@@ -72,6 +104,11 @@ export default function Schedule() {
                     )}
                   </div>
                 </>
+              )}
+              {item.type == "WithoutSchedule" && (
+                <div className="no-schedule-container">
+                  <p>Нету расписания</p>
+                </div>
               )}
             </List.Item>
           )}

@@ -10,6 +10,7 @@ const WeekOptions = [1, 2, 3, 4];
 
 export default function Aside() {
   const dispatch = useDispatch();
+
   const { corpsList } = useSelector((state) => state.corps);
   const { weeksList } = useSelector((state) => state.weeks);
 

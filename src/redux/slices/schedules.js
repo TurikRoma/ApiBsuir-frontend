@@ -5,7 +5,6 @@ export const fetchSchedule = createAsyncThunk(
   "schedule/fetchSchedule",
   async (auditorieNumber) => {
     const { data } = await axios.get(`/auditories/${auditorieNumber}`);
-
     return data;
   }
 );
@@ -14,13 +13,22 @@ const initialState = {
   auditoriesSchedule: {
     item: [],
     status: "loading",
+    sorteredAuditoriesList: [],
   },
 };
 
-const shcheduleSlice = createSlice({
+const scheduleSlice = createSlice({
   name: "schedule",
   initialState,
-  reducers: {},
+  reducers: {
+    changeTypeSearchAction: (state) => {
+      state.auditoriesSchedule.item = [];
+      state.auditoriesSchedule.status = "loading";
+    },
+    setSorteredAuditoriesList: (state, payload) => {
+      state.auditoriesSchedule.sorteredAuditoriesList = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSchedule.pending, (state) => {
@@ -38,4 +46,6 @@ const shcheduleSlice = createSlice({
   },
 });
 
-export const scheduleReducer = shcheduleSlice.reducer;
+export const { changeTypeSearchAction, setSorteredAuditoriesList } =
+  scheduleSlice.actions;
+export const scheduleReducer = scheduleSlice.reducer;

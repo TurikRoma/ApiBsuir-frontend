@@ -19,7 +19,9 @@ body {
   aside {
     flex: 0.4;
   }
-  .ant-skeleton {
+  .ant-skeleton,
+  .plug,
+  .ant-list {
     flex: 1;
   }
 }
@@ -42,6 +44,13 @@ body {
       font-size: clamp(0.875rem, 0.6968rem + 0.8909vw, 1.125rem);
     }
   }
+
+  .main-container {
+    flex-direction: column-reverse;
+  }
+  .ant-list {
+    margin-top: 30px;
+  }
 }
 @media (max-width: 500px) {
   hr {
@@ -58,5 +67,8 @@ body {
   }
   .title {
     font-size: 24px !important;
+  }
+  aside {
+    padding-left: 20px;
   }
 }

@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import axios from "../axios";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchSchedule } from "../redux/slices/schedules";
+import { useSelector } from "react-redux";
 
 const DataContext = createContext({
   auditoriesSchedule: {},
@@ -14,14 +13,13 @@ const DataContext = createContext({
 
 export function DataProviderContext({ children }) {
   const [loading, setLoading] = useState(true);
-  // const [auditoriesSchedule, setAuditoriesSchedule] = useState({});
-  const [sorteredAuditories, setSorteredAuditories] = useState([]);
   const [AuditoriesList, setAuditoriesList] = useState([]);
   const [options, setOptions] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [typeSearch, setTypeSearch] = useState("auditorie");
 
   const { auditoriesSchedule } = useSelector((state) => state.schedule);
+  const sorteredAuditories = auditoriesSchedule.sorteredAuditoriesList.payload;
 
   useEffect(() => {
     async function getAuditorieList() {
@@ -44,8 +42,10 @@ export function DataProviderContext({ children }) {
     let data = el;
     let sorteredList = [];
     let searchingType;
-
-    typeSearch == "auditorie" ? (searchingType = AuditoriesList) : null;
+    console.log(auditoriesSchedule.sorteredAuditoriesList.payload);
+    typeSearch == "auditorie"
+      ? (searchingType = AuditoriesList)
+      : (searchingType = sorteredAuditories);
 
     searchingType.forEach((item) => {
       if (

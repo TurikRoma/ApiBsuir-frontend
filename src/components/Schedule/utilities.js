@@ -1,7 +1,7 @@
 const startDate = new Date("2025-02-10");
 const endDate = new Date("2025-06-20");
-
 let currentDate = new Date();
+let days = ["Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
 
 if (currentDate < startDate) currentDate = new Date(startDate);
 
@@ -16,6 +16,44 @@ export function getIndexWeek(date) {
   }
 
   return weekIndex;
+}
+
+function sortScheduleByTime(newAuditorieList) {
+  for (let i = 0; i < 6; i++) {
+    let schedule;
+    try {
+      schedule = newAuditorieList[days[i]];
+    } catch (error) {
+      continue;
+    }
+
+    try {
+      schedule.sort((a, b) => {
+        const timeA = a.startLesson.split(":").map(Number);
+        const timeB = b.startLesson.split(":").map(Number);
+        return timeA[0] * 60 + timeA[1] - (timeB[0] * 60 + timeB[1]);
+      });
+    } catch (error) {}
+    newAuditorieList[days[i]] = schedule;
+  }
+  return newAuditorieList;
+}
+
+function getUniqueSchedule(newAuditorieList) {
+  for (let i = 0; i < 6; i++) {
+    if (newAuditorieList[days[i]]) {
+      const uniqueSchedule = Array.from(
+        new Map(
+          newAuditorieList[days[i]].map((schedule) => [
+            JSON.stringify(schedule),
+            schedule,
+          ])
+        ).values()
+      );
+      newAuditorieList[days[i]] = uniqueSchedule;
+    }
+  }
+  return newAuditorieList;
 }
 
 export function getSchedule(auditoriesSchedule) {
@@ -60,5 +98,46 @@ export function getSchedule(auditoriesSchedule) {
 
   if (currentDate < startDate) currentDate = new Date(startDate);
   else currentDate = new Date(startDate);
+  return scheduleData;
+}
+
+export function getScheduleByWeek(auditorieSchedule, week) {
+  let scheduleData = [];
+  let data = auditorieSchedule.item;
+  let newAuditorieList = { ...data[`${week[0]}week`] };
+
+  week.shift();
+  week.map((w) => {
+    for (let day in data[`${w}week`]) {
+      if (newAuditorieList[day]) {
+        const newSchedule = newAuditorieList[day].concat(data[`${w}week`][day]);
+        newAuditorieList[day] = newSchedule;
+      } else {
+        newAuditorieList[day] = data[`${w}week`][day];
+      }
+    }
+  });
+  newAuditorieList = sortScheduleByTime(newAuditorieList);
+  newAuditorieList = getUniqueSchedule(newAuditorieList);
+
+  for (let i = 0; i < 6; i++) {
+    scheduleData.push({
+      type: "Head",
+      NameDay: days[i],
+    });
+    console.log(newAuditorieList[days[i]]);
+    if (newAuditorieList[days[i]] && newAuditorieList[days[i]].length != 0) {
+      for (let j = 0; j < newAuditorieList[days[i]].length; j++) {
+        scheduleData.push({
+          type: "Main",
+          content: newAuditorieList[days[i]][j],
+        });
+      }
+    } else {
+      scheduleData.push({
+        type: "WithoutSchedule",
+      });
+    }
+  }
   return scheduleData;
 }
