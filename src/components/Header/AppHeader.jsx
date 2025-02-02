@@ -38,6 +38,10 @@ export default function Header() {
       changeTypeSearch("auditorie");
       dispatch(changeTypeSearchAction());
       navigate(`/`, { replace: true });
+      let newOptions = AuditoriesList.map((item) => {
+        return { value: item };
+      });
+      changeOptions(newOptions);
     } else {
       getAuditoriesListByCorps([1]);
       changeTypeSearch("auditorie(corps)");
@@ -71,7 +75,6 @@ export default function Header() {
   }
 
   async function searchAuditorie(event) {
-    console.log(typeSearch);
     if (event.key === "Enter") {
       let auditorie = options[0].value;
       setInputValue(auditorie);

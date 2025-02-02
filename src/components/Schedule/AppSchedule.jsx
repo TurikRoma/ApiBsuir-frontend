@@ -20,11 +20,8 @@ export default function Schedule() {
       let scheduleData;
       if (typeSearch == "auditorie") {
         scheduleData = getSchedule(auditoriesSchedule);
-        console.log(scheduleData);
       } else {
-        console.log(weeksList);
         scheduleData = getScheduleByWeek(auditoriesSchedule, [...weeksList]);
-        console.log(scheduleData);
       }
       setData(scheduleData);
     }
@@ -32,7 +29,6 @@ export default function Schedule() {
 
   useEffect(() => {
     if (!isLoading) {
-      console.log(weeksList);
       if (weeksList.length != 0) {
         const scheduleData = getScheduleByWeek(auditoriesSchedule, [
           ...weeksList,
@@ -46,7 +42,6 @@ export default function Schedule() {
 
   return (
     <>
-      
       {typeSearch == "auditorie" && isLoading && (
         <Skeleton loading={isLoading} active></Skeleton>
       )}
