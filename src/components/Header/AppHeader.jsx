@@ -43,7 +43,7 @@ export default function Header() {
       });
       changeOptions(newOptions);
     } else {
-      getAuditoriesListByCorps([1]);
+      getAuditoriesListByCorps(corpsList);
       changeTypeSearch("auditorie(corps)");
       dispatch(changeTypeSearchAction());
       navigate(`/auditories/corps/`, { replace: true });
