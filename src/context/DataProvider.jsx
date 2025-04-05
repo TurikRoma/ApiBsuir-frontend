@@ -30,9 +30,10 @@ export function DataProviderContext({ children }) {
         return { value: auditorie };
       });
       setOptions(auditorieList);
+      await new Promise((r) => setTimeout(r, 5000));
+      setLoading(false);
     }
     getAuditorieList();
-    setLoading(false);
   }, []);
 
   const changeOptions = function (option) {
